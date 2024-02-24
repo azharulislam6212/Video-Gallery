@@ -1,0 +1,112 @@
+{% liquid
+  assign s = section.settings
+  assign rte = s.rte
+  assign title = s.title
+
+%}
+
+{% liquid
+
+%}
+
+<section class="video-gallery section {%if section.blocks.size > 3%} desktop-slider-enable {% endif %}" id="gallery">
+  <div class="common-wrap clear">
+    <div class="video-inner">
+      <div class="video-title">
+        <h2>{{ title }}</h2>
+
+        {%- if rte != blank -%}
+            <div class="video-text">
+                <p>{{rte}}</p>
+            </div>
+        {%- endif -%}
+
+       
+      </div>
+
+
+<div class="video-item-wrap  {%if section.blocks.size <= 3%} dot-hide {% endif %}">
+        {% for block in section.blocks %}
+          {%- assign b = block.settings -%}
+    
+          {% assign image = b.poster_img %}
+
+          <div class="video-item anim video-play-btn">
+
+
+           <a href="{{ b.video }}"  class="video-item-thumb thumb-animate delay-{{forloop.index0}}">
+              <figure>
+                {% if image != blank %}
+                    {% render 'responsive-img' with image:image %}
+                  {% endif %}
+            </figure>
+
+            {% comment %} <div class="video-btn video-play-btn">
+                <a href="{{ b.video }}" class="btn">WATCH VIDEO</a>
+            </div> {% endcomment %}
+
+            </a>
+
+            <div class="video-item-content flex">
+              <div class="video-item-title">
+                <h4>{{ b.title }}</h4>
+              </div>
+              <div class="video-item-link flex video-play-btn">
+                     <a href="{{ b.video }}" >WATCH VIDEO</a>
+             </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "THE STORY BEHIND THE NAME"
+    },
+    {
+      "type": "textarea",
+      "id": "rte",
+      "label": "Text",
+      "default": "SHANKY WAS ALWAYS ONE TO BUCK THE TREND - HE LIKED THE IDEA OF IRISH WHISKEY - BUT HE DID NOT LIKE THE BURN - HE LIKED THE TASTE OF CREAM - BUT HE DID NOT LIKE THE TEXTURE... AND HE LOVED STOUT - WHICH IS OF COURSE, BLACK! SO HE HAD A LIGHTBULB MOMENT... AND SHANKY'S WHIP WAS BORN."
+    }
+  ],
+  "blocks": [
+    {
+      "name": "video",
+      "type": "Video",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "poster_img",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+         "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "SHOT"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Gallery"
+    }
+  ]
+}
+{% endschema %}
